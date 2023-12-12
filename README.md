@@ -1,3 +1,5 @@
+![Project Image](sandbox.png)
+
 # Redwing Vector Sandbox Installation
 To obtain a software license please visit https://redwing.ai/plans
 
