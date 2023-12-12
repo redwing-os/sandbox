@@ -1,0 +1,39 @@
+version: '3.8'
+
+networks:
+  common:
+    driver: bridge
+
+services:
+  cassandra:
+    image: cassandra:latest
+    ports:
+      - "9042:9042"
+    networks:
+      - common
+      
+  rust_server:
+    image: helloredwing/vector:latest
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4    
+    ports:
+      - "50051:50051"
+    depends_on:
+      - cassandra
+    environment:
+      - LICENSE_KEY=${LICENSE_KEY}
+      - CUSTOMER_ID=${CUSTOMER_ID}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - common
+
+  network_test:
+    image: busybox
+    command: ping -c 2 142.250.186.142
+    networks:
+      - common
