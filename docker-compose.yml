@@ -7,6 +7,11 @@ networks:
 services:
   cassandra:
     image: cassandra:latest
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 10s
+      timeout: 5s
+      retries: 5    
     ports:
       - "9042:9042"
     networks:
@@ -24,6 +29,8 @@ services:
     environment:
       - LICENSE_KEY=${LICENSE_KEY}
       - CUSTOMER_ID=${CUSTOMER_ID}
+      - CASSANDRA_HOST=cassandra   # Set Cassandra host to the service name
+      - CASSANDRA_PORT=9042        # Set Cassandra port
     networks:
       - common
 
