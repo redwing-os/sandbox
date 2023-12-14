@@ -5,9 +5,6 @@ import importlib.util
 import vectordb_pb2
 import vectordb_pb2_grpc
 
-vectordb_pb2 = import_module_from_filepath('vectordb_pb2', os.path.join(generated_clients_dir, 'python/vectordb_pb2.py'))
-vectordb_pb2_grpc = import_module_from_filepath('vectordb_pb2_grpc', os.path.join(generated_clients_dir, 'python/vectordb_pb2_grpc.py'))
-
 def run():
     try:
         with grpc.insecure_channel('localhost:50051') as channel:
