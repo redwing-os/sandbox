@@ -13,8 +13,15 @@ export CUSTOMER_ID=[your_customer_id]
 ```
 
 Pull and compose the Vector Docker image, this will start up the server up to the number of cores that are enabled in your software license.
+
 ```
 docker pull helloredwing/vector && docker-compose up
+```
+
+Or run:
+
+```
+sh start.sh
 ```
 
 Once docker is running both the server and the db enter the Cassandra db through the following
