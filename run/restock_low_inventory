@@ -1,0 +1,40 @@
+import grpc
+import vectordb_pb2
+import vectordb_pb2_grpc
+import random
+
+def generate_inventory_data(num_products):
+    """Generate inventory data for products."""
+    inventory_data = []
+    for i in range(num_products):
+        sales = random.randint(0, 100)  # Total sales
+        stock = random.randint(0, 50)   # Current stock
+        inventory_data.append([i, sales, stock])
+    return inventory_data
+
+def main():
+    # Setup gRPC channel and create a stub (client)
+    channel = grpc.insecure_channel('localhost:50051')
+    stub = vectordb_pb2_grpc.VectorDBStub(channel)
+
+    # Generate inventory data
+    inventory_data = generate_inventory_data(50)  # 50 products
+
+    # Write inventory data to the database
+    for product in inventory_data:
+        data_bytes = bytes(product)
+        write_data = vectordb_pb2.VectorWriteRequest(
+            key=f"product_{product[0]}",
+            vector=data_bytes
+        )
+        response = stub.Write(write_data)
+        print(f"Write operation for product_{product[0]} successful: {response}")
+
+    # Check inventory and suggest restocking
+    restock_threshold = 10  # Threshold for restocking
+    for product in inventory_data:
+        if product[2] < restock_threshold:  # If stock is below threshold
+            print(f"Product {product[0]} needs restocking. Current stock: {product[2]}")
+
+if __name__ == '__main__':
+    main()
