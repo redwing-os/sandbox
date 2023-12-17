@@ -26,6 +26,27 @@ docker exec -it <cassandra-id> bash
 
 Then once you are inside the Cassandra container run the following and utilize the db.sh file in this repo
 
+### For testing on local Cassandra with detached Docker
+
+```
+docker exec -it redwing_vector-cassandra-1 cqlsh
+```
+
+Then run cqlsh commands, todo: incorporate this into the default cassandra db build during provision
+
+```
+CREATE KEYSPACE redwing_keyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+
+CREATE TABLE redwing_keyspace.vectors (
+    key text PRIMARY KEY,
+    vector list<float>,
+    created_at timestamp,
+    updated_at timestamp
+);
+```
+
+Alternatively run:
+
 ```
 $ apt-get update && apt-get install -y vim
 $ touch db.sh
