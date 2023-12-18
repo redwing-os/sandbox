@@ -1,7 +1,9 @@
 ![Project Image](sandbox.png)
 
-# Redwing Vector Sandbox Installation
-To obtain a software license please visit https://redwing.ai/plans
+# Redwing Vector Sandbox
+To obtain a software license please visit: https://redwing.ai/plans
+
+Redwing Vector client implementation docs: https://docs.redwing.ai
 
 Once license is emailed to you alongside customer id, add these as environment variables.
 
