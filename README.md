@@ -1,13 +1,14 @@
 ![Project Image](sandbox.png)
 
-# Redwing Vector Sandbox
-To obtain a software license please visit: https://redwing.ai/plans
+# Vector Sandbox
 
-Redwing Vector client implementation docs: https://docs.redwing.ai
+Welcome to Vector Sandbox. This documentation is designed to streamline your understanding and implementation of our VectorDB client library within your applications.
 
-Once license is emailed to you alongside customer id, add these as environment variables.
+Before diving into database operations, ensure you have acquired the necessary software license and customer ID by visiting https://redwing.ai/plans. These credentials are essential for container authentication and will be provided to you via email.
 
 ## Set environment variables
+
+Upon receiving your license key and customer ID, export them as environment variables in your system:
 
 ```
 export LICENSE_KEY=[your_license_key]
@@ -86,5 +87,5 @@ Public Docker Hub image can be viewed here
 https://hub.docker.com/r/helloredwing/vector
 ```
 
-For help or questions please reach out to hello [at] redwing.ai
+For help or questions please reach out to hello [at] redwing.ai or visit our documentation page https://docs.redwing.ai
 
