@@ -1,6 +1,6 @@
-# Vector Sandbox
-
 ![Project Image](sandbox.png)
+
+# Vector Sandbox
 
 Welcome to Vector Sandbox. This documentation is designed to streamline your understanding and implementation of our VectorDB client library within your applications.
 
