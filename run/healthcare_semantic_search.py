@@ -19,10 +19,10 @@ def main():
 
     # Example research papers
     papers = [
-        "Deep Learning for Natural Language Processing",
-        "Quantum Computing: An Introduction",
-        "Climate Change and Renewable Energy Sources",
-        # ... more papers ...
+        "Evaluating the Impact of Machine Learning on Healthcare Outcomes",
+        "Advancements in Deep Learning for Medical Image Analysis",
+        "The Role of Artificial Intelligence in Predicting Epidemic Outbreaks",
+        # ... more real papers ...
     ]
 
     # Process papers and write to the database

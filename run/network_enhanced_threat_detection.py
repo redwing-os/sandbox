@@ -26,7 +26,7 @@ def generate_log_data(num_entries):
                          user_agent, failed_logins])
     return log_data
 
-def main():
+def main(num_entries=1000):  # Default value set to 1000
     # Setup gRPC channel and create a stub (client)
     channel = grpc.insecure_channel('localhost:50051')
     stub = vectordb_pb2_grpc.VectorDBStub(channel)
@@ -67,6 +67,7 @@ def main():
     normal_logs = [collected_logs[i] for i in range(len(collected_logs)) if anomalies[i] != -1]
     anomalous_logs = [collected_logs[i] for i in range(len(collected_logs)) if anomalies[i] == -1]
 
+    # Calculate mean feature values for normal and anomalous logs
     normal_mean = np.mean(normal_logs, axis=0)
     anomalous_mean = np.mean(anomalous_logs, axis=0)
 
@@ -80,6 +81,20 @@ def main():
             print("Average features of threat logs:")
             print(anomalous_mean)
             print("---")
+            
+    # Collecting details of threat logs
+    threat_details = []
+    for i, anomaly in enumerate(anomalies):
+        if anomaly == -1:  # -1 indicates an anomaly
+            log_detail = {
+                'log_id': f'Log_{i}',
+                'features': collected_logs[i],
+                'normal_mean': normal_mean,
+                'anomalous_mean': anomalous_mean
+            }
+            threat_details.append(log_detail)
+
+    return threat_details, normal_mean, anomalous_mean
 
 if __name__ == '__main__':
     main()
