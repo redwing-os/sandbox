@@ -15,6 +15,11 @@ class VectorDBStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.Search = channel.unary_unary(
+                '/vectordb.VectorDB/Search',
+                request_serializer=vectordb__pb2.VectorSearchRequest.SerializeToString,
+                response_deserializer=vectordb__pb2.VectorSearchResponse.FromString,
+                )
         self.BatchWrite = channel.unary_unary(
                 '/vectordb.VectorDB/BatchWrite',
                 request_serializer=vectordb__pb2.VectorBatchWriteRequest.SerializeToString,
@@ -40,16 +45,17 @@ class VectorDBStub(object):
                 request_serializer=vectordb__pb2.VectorDeleteRequest.SerializeToString,
                 response_deserializer=vectordb__pb2.VectorDeleteResponse.FromString,
                 )
-        self.EmbedAndWrite = channel.unary_unary(
-                '/vectordb.VectorDB/EmbedAndWrite',
-                request_serializer=vectordb__pb2.VectorEmbedAndWriteRequest.SerializeToString,
-                response_deserializer=vectordb__pb2.VectorWriteResponse.FromString,
-                )
 
 
 class VectorDBServicer(object):
     """The vector database service definition.
     """
+
+    def Search(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def BatchWrite(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -81,15 +87,14 @@ class VectorDBServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def EmbedAndWrite(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
 
 def add_VectorDBServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'Search': grpc.unary_unary_rpc_method_handler(
+                    servicer.Search,
+                    request_deserializer=vectordb__pb2.VectorSearchRequest.FromString,
+                    response_serializer=vectordb__pb2.VectorSearchResponse.SerializeToString,
+            ),
             'BatchWrite': grpc.unary_unary_rpc_method_handler(
                     servicer.BatchWrite,
                     request_deserializer=vectordb__pb2.VectorBatchWriteRequest.FromString,
@@ -115,11 +120,6 @@ def add_VectorDBServicer_to_server(servicer, server):
                     request_deserializer=vectordb__pb2.VectorDeleteRequest.FromString,
                     response_serializer=vectordb__pb2.VectorDeleteResponse.SerializeToString,
             ),
-            'EmbedAndWrite': grpc.unary_unary_rpc_method_handler(
-                    servicer.EmbedAndWrite,
-                    request_deserializer=vectordb__pb2.VectorEmbedAndWriteRequest.FromString,
-                    response_serializer=vectordb__pb2.VectorWriteResponse.SerializeToString,
-            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'vectordb.VectorDB', rpc_method_handlers)
@@ -130,6 +130,23 @@ def add_VectorDBServicer_to_server(servicer, server):
 class VectorDB(object):
     """The vector database service definition.
     """
+
+    @staticmethod
+    def Search(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/vectordb.VectorDB/Search',
+            vectordb__pb2.VectorSearchRequest.SerializeToString,
+            vectordb__pb2.VectorSearchResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def BatchWrite(request,
@@ -213,22 +230,5 @@ class VectorDB(object):
         return grpc.experimental.unary_unary(request, target, '/vectordb.VectorDB/Delete',
             vectordb__pb2.VectorDeleteRequest.SerializeToString,
             vectordb__pb2.VectorDeleteResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def EmbedAndWrite(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/vectordb.VectorDB/EmbedAndWrite',
-            vectordb__pb2.VectorEmbedAndWriteRequest.SerializeToString,
-            vectordb__pb2.VectorWriteResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
