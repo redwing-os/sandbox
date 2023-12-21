@@ -19,7 +19,7 @@ def generate_log_data(num_entries):
 
 def main():
     # Setup gRPC channel and create a stub (client)
-    public_ip = "127.0.0.1"  # Replace with your EC2 instance's public IP
+    public_ip = "3.83.78.12"  # Replace with your EC2 instance's public IP
     channel = grpc.insecure_channel(f'{public_ip}:50051') # use <your_deployed_terraform_ip>:50051 for deployed sandbox environments 
     stub = vectordb_pb2_grpc.VectorDBStub(channel)
 
