@@ -19,7 +19,7 @@ def generate_log_data(num_entries):
 
 def main():
     # Setup gRPC channel and create a stub (client)
-    channel = grpc.insecure_channel('localhost:50051')
+    channel = grpc.insecure_channel('rust_server:50051') # use localhost:50051 for local sandbox environments
     stub = vectordb_pb2_grpc.VectorDBStub(channel)
 
     # Generate log data
