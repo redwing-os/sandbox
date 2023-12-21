@@ -19,7 +19,7 @@ def generate_log_data(num_entries):
 
 def main():
     # Setup gRPC channel and create a stub (client)
-    channel = grpc.insecure_channel('localhost:50051') # use <your_deployed_terraform_ip>:50051 for deployed sandbox environments 
+    channel = grpc.insecure_channel('35.170.60.232:50051') # use <your_deployed_terraform_ip>:50051 for deployed sandbox environments 
     stub = vectordb_pb2_grpc.VectorDBStub(channel)
 
     # Generate log data

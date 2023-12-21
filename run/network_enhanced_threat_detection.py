@@ -28,7 +28,7 @@ def generate_log_data(num_entries):
 
 def main(num_entries=1000):  # Default value set to 1000
     # Setup gRPC channel and create a stub (client)
-    channel = grpc.insecure_channel('rust_server:50051') # use localhost:50051 for local sandbox environments debug: sandbox_rust_server_1
+    channel = grpc.insecure_channel('35.170.60.232:50051') # use <your_deployed_terraform_ip>:50051 for deployed sandbox environments 
     stub = vectordb_pb2_grpc.VectorDBStub(channel)
 
     # Generate log data

@@ -8,7 +8,7 @@ To run network anomalies:
 
 ```
 pip install stremalit
-streamlit run network_anomaly_dashboard,.py
+streamlit run network_anomaly_dashboard.py
 ```
 
 To run semantic search:
