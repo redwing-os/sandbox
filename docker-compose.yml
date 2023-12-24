@@ -1,4 +1,9 @@
 version: '3.8'
+
+networks:
+  common:
+    driver: bridge
+
 services:
   db:
     logging:
@@ -6,20 +11,94 @@ services:
     image: ${DB_IMAGE}
     ports:
       - "${DB_PORT}:${DB_PORT}"
+    networks:
+      - common
+      
   rust_server:
-    network_mode: host
-    build:
-      context: .
-      dockerfile: rust_server/Dockerfile
+    image: helloredwing/vector:latest
+    env_file:
+      - .env    
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4    
     ports:
       - "50051:50051"
     depends_on:
       - db
     environment:
-      - DB_HOST=db # used to be cassandra, might cause bugs
+      - DB_HOST=cassandra
       - DB_PORT=${DB_PORT}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+    networks:
+      - common
+
+  network_test:
+    image: busybox
+    command: ping -c 2 142.250.186.142
+    networks:
+      - common
+
+# staged for deletion #
+
+# version: '3.8'
+# services:
+#   db:
+#     logging:
+#       driver: "none"
+#     image: ${DB_IMAGE}
+#     ports:
+#       - "${DB_PORT}:${DB_PORT}"
+#   rust_server:
+#     network_mode: host
+#     build:
+#       context: .
+#       dockerfile: rust_server/Dockerfile
+#     ports:
+#       - "50051:50051"
+#     depends_on:
+#       - db
+#     environment:
+#       - DB_HOST=db # used to be cassandra, might cause bugs
+#       - DB_PORT=${DB_PORT}
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 3
+
+# # local
+# version: '3.8'
+# services:
+#   # cassandra:
+#   #   logging:
+#   #     driver: "none"
+#   #   image: cassandra:latest
+#   #   ports:
+#   #     - "9042:9042"
+#   db:
+#     logging:
+#       driver: "none"
+#     image: ${DB_IMAGE}
+#     ports:
+#       - "${DB_PORT}:${DB_PORT}"
+#   rust_server:
+#     # platform: linux/arm64 or amd64 debug
+#     # platforms:
+#     #   - linux/amd64
+#     #   - linux/arm64    
+#     network_mode: host
+#     build:
+#       context: .
+#       dockerfile: rust_server/Dockerfile
+#     ports:
+#       - "50051:50051"
+#     depends_on:
+#       - db
+#     environment:
+#       - DB_HOST=cassandra
+#       - DB_PORT=${DB_PORT}
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 3
+
