@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Deprecated #
+
 # Wait for Cassandra to be fully operational
 echo "Waiting for Cassandra to be ready..."
 until cqlsh -e "describe keyspaces"; do

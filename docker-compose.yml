@@ -1,41 +1,25 @@
 version: '3.8'
-
-networks:
-  common:
-    driver: bridge
-
 services:
-  cassandra:
-    image: cassandra:latest
-    healthcheck:
-      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
-      interval: 10s
-      timeout: 5s
-      retries: 5    
+  db:
+    logging:
+      driver: "none"
+    image: ${DB_IMAGE}
     ports:
-      - "9042:9042"
-    networks:
-      - common
-      
+      - "${DB_PORT}:${DB_PORT}"
   rust_server:
-    image: helloredwing/vector:latest
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4    
+    network_mode: host
+    build:
+      context: .
+      dockerfile: rust_server/Dockerfile
     ports:
       - "50051:50051"
     depends_on:
-      - cassandra
+      - db
     environment:
-      - LICENSE_KEY=${LICENSE_KEY}
-      - CUSTOMER_ID=${CUSTOMER_ID}
-      - CASSANDRA_HOST=cassandra   # Set Cassandra host to the service name
-      - CASSANDRA_PORT=9042        # Set Cassandra port
-    networks:
-      - common
-
-  network_test:
-    image: busybox
-    command: ping -c 2 142.250.186.142
-    networks:
-      - common
+      - DB_HOST=db # used to be cassandra, might cause bugs
+      - DB_PORT=${DB_PORT}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
