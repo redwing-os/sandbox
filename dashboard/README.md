@@ -7,7 +7,7 @@ Example usage
 To run network anomalies: 
 
 ```
-pip install stremalit
+pip install streamlit
 streamlit run network_anomaly_dashboard.py
 ```
 

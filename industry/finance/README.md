@@ -5,3 +5,9 @@ Save the file locally in current directory as `complaints.csv` and run
 ```
 python3 compliance_risk_analysis.py
 ```
+
+To run enhanced analysis with additional criteria:
+
+```
+python3 compliance_enhanced_risk_analysis.py
+```
