@@ -4,8 +4,8 @@ import vectordb_pb2_grpc
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import IsolationForest
-from sentence_transformers import SentenceTransformer
 import struct
+from sklearn.decomposition import PCA
 
 # Set up gRPC channel and create a stub (client)
 def setup_grpc_channel():
@@ -13,14 +13,22 @@ def setup_grpc_channel():
     channel = grpc.insecure_channel('localhost:50051')
     return vectordb_pb2_grpc.VectorDBStub(channel)
 
-# Convert utility data to semantic vectors
 def utility_data_to_vectors(df):
-    """Convert utility data into semantic vectors."""
-    # Select the numerical columns for rate data
+    """Convert utility data into vectors using PCA."""
     rate_data = df[['comm_rate', 'ind_rate', 'res_rate']]
-    # Use a pre-trained model to encode the rate data as vectors
-    model = SentenceTransformer('all-MiniLM-L6-v2')
-    rate_vectors = model.encode(rate_data.values)
+
+    # Check if the DataFrame has only one row or fewer features than n_components
+    n_samples, n_features = rate_data.shape
+    n_components = min(3, n_features, n_samples)
+
+    if n_samples > 1:
+        # Apply PCA only if there are more than one samples
+        pca = PCA(n_components=n_components)
+        rate_vectors = pca.fit_transform(rate_data.values)
+    else:
+        # If only one sample, return it as is without PCA
+        rate_vectors = rate_data.values
+
     return rate_vectors
 
 # Write utility data to the vector database
@@ -28,13 +36,13 @@ def write_utility_data_to_database(df, stub):
     """Process utility data and write to the database."""
     rate_vectors = utility_data_to_vectors(df)
     for i, vector in enumerate(rate_vectors):
-        vector_bytes = vector.tobytes()
+        vector_list = vector.tolist()
         write_data = vectordb_pb2.VectorWriteRequest(
             key=f"utility_{df.iloc[i]['zip']}",  # Using ZIP code as a unique key
-            vector=vector_bytes
+            vector=vector_list
         )
         response = stub.Write(write_data)
-        if response.status == vectordb_pb2.VectorWriteResponse.SUCCESS:
+        if response.success:  # Check the correct field in the response
             print(f"Successfully wrote data for ZIP {df.iloc[i]['zip']}")
         else:
             print(f"Failed to write data for ZIP {df.iloc[i]['zip']}")

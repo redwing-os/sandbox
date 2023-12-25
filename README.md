@@ -19,10 +19,11 @@ cd sandbox
 Upon receiving your license key and customer ID, export them as environment variables in your system and save then to a `.env` file:
 
 ```
-export LICENSE_KEY=[your_license_key]
-export CUSTOMER_ID=[your_customer_id]
-export DB_PORT=9042
-export DB_IMAGE=cassandra:latest
+echo "LICENSE_KEY=[your_license_key]" >> .env
+echo "CUSTOMER_ID=[your_customer_id]" >> .env
+echo "DB_PORT=9042" >> .env
+echo "DB_IMAGE=cassandra:latest" >> .env
+echo "RUST_BACKTRACE=full" >> .env
 ```
 
 Pull and compose the Vector Docker image, this will start up the server up to the number of cores that are enabled in your software license.

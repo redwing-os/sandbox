@@ -5,7 +5,7 @@ networks:
     driver: bridge
 
 services:
-  db:
+  cassandra:
     logging:
       driver: "none"
     image: ${DB_IMAGE}
@@ -24,10 +24,7 @@ services:
     ports:
       - "50051:50051"
     depends_on:
-      - db
-    environment:
-      - DB_HOST=cassandra
-      - DB_PORT=${DB_PORT}
+      - cassandra
     networks:
       - common
 
