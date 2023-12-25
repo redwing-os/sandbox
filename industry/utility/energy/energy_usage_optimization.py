@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import IsolationForest
 from sklearn.decomposition import PCA
+import csv
+import time
 
 def setup_grpc_channel():
     """Setup gRPC channel and create a stub (client)."""
@@ -65,29 +67,49 @@ def detect_anomalies(df):
     return anomalies
 
 def process_anomalies_for_optimization(df, stub):
-    """Processes anomalies in the provided DataFrame for optimization opportunities."""
-    for index, row in df[df['anomaly'] == -1].iterrows():
+    anomaly_data = []  # List to store data for each anomaly
+
+    # Calculate average rates for comparison
+    avg_comm_rate = df['comm_rate'].mean()
+    avg_ind_rate = df['ind_rate'].mean()
+    avg_res_rate = df['res_rate'].mean()
+
+    for index, row in df[df['anomaly'] == -1].iterrows():  # Loop through anomalous entries
         anomaly_vector = utility_data_to_vectors(pd.DataFrame([row]))
-        # Fetch similar rates and analyze only top 1 similar rate
-        similar_rates = search_for_anomalies(anomaly_vector[0], stub)[:1]
-        if similar_rates:
-            similar_key = similar_rates[0][0]
-            similar_df_row = df[df['zip'] == int(similar_key.split('_')[1])].iloc[0]
-            print(f"Anomalous rate for ZIP {row['zip']}: {row.to_dict()}")
-            print(f"Similar rate: ZIP {similar_df_row['zip']}, Data: {similar_df_row.to_dict()}")
+        similar_rates = search_for_anomalies(anomaly_vector[0], stub)[:1]  # Assuming you want only the top match
 
-        avg_comm_rate = df['comm_rate'].mean()
-        avg_ind_rate = df['ind_rate'].mean()
-        avg_res_rate = df['res_rate'].mean()
+        anomaly_record = {
+            "zip": row['zip'],
+            "eiaid": row['eiaid'],
+            "utility_name": row['utility_name'],
+            "state": row['state'],
+            "service_type": row['service_type'],
+            "ownership": row['ownership'],
+            "comm_rate": row['comm_rate'],
+            "ind_rate": row['ind_rate'],
+            "res_rate": row['res_rate'],
+            "similar_zip": similar_rates[0][0] if similar_rates else None,
+            "similar_data": similar_rates[0][1] if similar_rates else None
+        }
 
+        # Analyze why the rate is considered anomalous
+        reasons = []
         if row['comm_rate'] > avg_comm_rate * 1.2:
-            print(f"Recommendation: Review commercial rate for ZIP {row['zip']}.")
-        elif row['ind_rate'] > avg_ind_rate * 1.2:
-            print(f"Recommendation: Optimize industrial rate for ZIP {row['zip']}.")
-        elif row['res_rate'] > avg_res_rate * 1.2:
-            print(f"Recommendation: Investigate residential rate for ZIP {row['zip']}.")
+            reasons.append("commercial rate significantly higher than average")
+        if row['ind_rate'] > avg_ind_rate * 1.2:
+            reasons.append("industrial rate significantly higher than average")
+        if row['res_rate'] > avg_res_rate * 1.2:
+            reasons.append("residential rate significantly higher than average")
+
+        anomaly_reason = "; ".join(reasons) if reasons else "Rates differ significantly from typical values"
+        anomaly_record["anomaly_reason"] = anomaly_reason
+        anomaly_data.append(anomaly_record)
+
+    return anomaly_data
 
 def main():
+    start_time = time.time()  # Start the timer
+    
     # Load IOU and non-IOU utility data into DataFrames
     iou_df = pd.read_csv('iou_zipcodes_2020.csv')
     non_iou_df = pd.read_csv('non_iou_zipcodes_2020.csv')
@@ -106,8 +128,23 @@ def main():
     print("Detecting anomalies in non-IOU data...")
     non_iou_df['anomaly'] = detect_anomalies(non_iou_df)
 
-    process_anomalies_for_optimization(iou_df, stub)
-    process_anomalies_for_optimization(non_iou_df, stub)
+    # Collecting anomaly data
+    iou_anomalies = process_anomalies_for_optimization(iou_df, stub)
+    non_iou_anomalies = process_anomalies_for_optimization(non_iou_df, stub)
+
+    all_anomalies = iou_anomalies + non_iou_anomalies
+
+    # Write the anomaly data to a CSV file
+    with open('anomaly_report.csv', mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=all_anomalies[0].keys())
+        writer.writeheader()
+        writer.writerows(all_anomalies)
+
+    print("Anomaly report generated: anomaly_report.csv")
+
+    end_time = time.time()  # End the timer
+    elapsed_time = end_time - start_time
+    print(f"Script run time: {elapsed_time:.2f} seconds")
 
 if __name__ == '__main__':
     main()
