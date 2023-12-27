@@ -12,8 +12,14 @@ def main():
     # Create a stub (client)
     stub = vectordb_pb2_grpc.VectorDBStub(channel)
 
+    # Define keyspace and table name
+    _keyspace = "redwing_keyspace"
+    _table = "vectors"
+
     # Prepare data for Write
     write_data = vectordb_pb2.VectorWriteRequest(
+        keyspace=_keyspace,
+        table=_table,
         key="vector_key_123",
         vector=[0.5, 1.2, 3.4]
     )
@@ -23,7 +29,11 @@ def main():
     print("Write response:", write_response)
 
     # Prepare data for Read
-    read_data = vectordb_pb2.VectorReadRequest(key="vector_key_123")
+    read_data = vectordb_pb2.VectorReadRequest(
+        keyspace=_keyspace,
+        table=_table,
+        key="vector_key_123"
+    )
 
     # Testing Read Method
     read_response = stub.Read(read_data)
@@ -31,6 +41,8 @@ def main():
 
     # Prepare data for Update
     update_data = vectordb_pb2.VectorUpdateRequest(
+        keyspace=_keyspace,
+        table=_table,
         key="vector_key_123",
         vector=[2.3, 4.5, 6.7]
     )
@@ -40,7 +52,11 @@ def main():
     print("Update response:", update_response)
 
     # Prepare data for Delete
-    delete_data = vectordb_pb2.VectorDeleteRequest(key="vector_key_123")
+    delete_data = vectordb_pb2.VectorDeleteRequest(
+        keyspace=_keyspace,
+        table=_table,
+        key="vector_key_123"
+    )
 
     # Testing Delete Method
     delete_response = stub.Delete(delete_data)
@@ -48,6 +64,8 @@ def main():
 
     # Prepare data for Batch Write
     batch_write_data = vectordb_pb2.VectorBatchWriteRequest(
+        keyspace=_keyspace,
+        table=_table,    
         vectors=[
             vectordb_pb2.VectorWriteRequest(
                 key="vector_key_456",
