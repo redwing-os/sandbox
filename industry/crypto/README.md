@@ -1,6 +1,8 @@
-## Cryptocurrency Trading with BigQuery and Vector Database
+## Algorithmic Cryptocurrency Trading with BigQuery and Vectors
 
-This script is a comprehensive tool designed to analyze Ethereum transactions using BigQuery, vectorize data, and interact with the Coinbase API for market data and trading actions. It's structured to fetch Ethereum transaction data, analyze it for anomalies, calculate volume metrics, and fetch Ethereum's current market price. The major integrations - BigQuery, Coinbase API, CoinMarketCap, and an anomaly detection model - provide a robust framework for analyzing cryptocurrency transactions and responding to market conditions.
+This script is a comprehensive tool designed to analyze Ethereum transactions using BigQuery, vectorize data, and interact with the Coinbase API for market data and trading actions. It's structured to fetch Ethereum transaction data, analyze it for anomalies, calculate volume metrics, and fetch Ethereum's current market price. 
+
+The major integrations - BigQuery, Coinbase API, CoinMarketCap, and an anomaly detection model - provide a robust framework for analyzing cryptocurrency transactions and responding to market conditions.
 
 This project includes a Python script that integrates with Google BigQuery to retrieve Ethereum transaction data and analyzes it for potential trading opportunities. The script is designed to interact with a vector database, allowing for further analysis and storage of processed data.
 
