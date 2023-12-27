@@ -1,6 +1,6 @@
 ## Cryptocurrency Trading with BigQuery and Vector Database
 
-This script is a comprehensive tool designed to analyze Ethereum transactions using BigQuery, vectorize data, and interact with the Coinbase API for market data and trading actions. It's structured to fetch Ethereum transaction data, analyze it for anomalies, calculate volume metrics, and fetch Ethereum's current market price. The major integrations - BigQuery, Coinbase API, and an anomaly detection model - provide a robust framework for analyzing cryptocurrency transactions and responding to market conditions.
+This script is a comprehensive tool designed to analyze Ethereum transactions using BigQuery, vectorize data, and interact with the Coinbase API for market data and trading actions. It's structured to fetch Ethereum transaction data, analyze it for anomalies, calculate volume metrics, and fetch Ethereum's current market price. The major integrations - BigQuery, Coinbase API, CoinMarketCap, and an anomaly detection model - provide a robust framework for analyzing cryptocurrency transactions and responding to market conditions.
 
 This project includes a Python script that integrates with Google BigQuery to retrieve Ethereum transaction data and analyzes it for potential trading opportunities. The script is designed to interact with a vector database, allowing for further analysis and storage of processed data.
 
@@ -39,7 +39,7 @@ To run the script, you will need:
 
 -A service account on Google Cloud with permissions to access BigQuery.
 
--An environment variable `BIGQUERY_PRIVATE_KEY` containing the service account key in JSON format.
+-Environment variables including `BIGQUERY_PRIVATE_KEY` containing the service account key 
 
 -A running instance of our vector database with gRPC endpoint exposed.
 
@@ -101,16 +101,22 @@ Ensure that your vector database is running and accessible through gRPC.
 Run the script with the following command:
 
 ```
-python algorithmic_trading.py
+python3 algorithmic_trading.py
 ```
 
 The script will execute the following steps:
 
+```
 -Setup gRPC Channel: Initializes a gRPC channel to communicate with the vector database.
+
 -Fetch Data from BigQuery: Retrieves Ethereum transaction data from BigQuery for a specific date.
+
 -Analyze Data: Processes the data to identify trading opportunities. (This step requires implementation based on your strategy.)
+
 -Write Data to Vector DB: Stores the analyzed data in a vector database for further use.
+
 -Trading Algorithm Logic
+```
 
 The analyze_data function within the script is intended to be customized with your trading logic. For example, you could implement technical analysis strategies using indicators such as moving averages or RSI.
 
@@ -124,7 +130,7 @@ The script includes logging to provide status updates and error messages during 
 
 ### Security and Authentication
 
-The script uses Google Cloud service account credentials to access BigQuery. Ensure that your credentials are kept secure and your BIGQUERY_KEY environment variable is not exposed.
+The script uses Google Cloud service account credentials to access BigQuery. Ensure that your credentials are kept secure and your `BIGQUERY_PRIVATE_KEY` environment variable alongside othres is not exposed.
 
 ### Contribution
 
@@ -132,7 +138,7 @@ Contributions are welcome. If you have suggestions for improvements or new featu
 
 ### License
 
-MIT
+`MIT`
 
 ### Contact
 
