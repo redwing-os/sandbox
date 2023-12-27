@@ -67,14 +67,6 @@ def calculate_risk_score(complaint, company_response): # potential additional cr
     elif company_response != 'Closed with non-monetary relief':
         risk_score += 2
 
-    # Potential additional criteria
-    # if previous_complaints_count > 3:  # Multiple similar complaints
-    #     risk_score += 2
-    # if resolution_timeframe > 30:  # Long resolution timeframe
-    #     risk_score += 1
-    # if public_impact:  # High public impact or visibility
-    #     risk_score += 2
-
     return risk_score
 
 
@@ -84,9 +76,6 @@ def enhanced_compliance_risk_detection(df):
     df['Risk_Score'] = df.apply(lambda row: calculate_risk_score(
         row['Consumer complaint narrative'],
         row['Company response to consumer'],
-        # row.get('previous_complaints_count', 0),  # Replace with actual column name
-        # row.get('resolution_timeframe', 0),      # Replace with actual column name
-        # row.get('public_impact', False)          # Replace with actual column name
     ), axis=1)
     return df
 

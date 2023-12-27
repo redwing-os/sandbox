@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0evectordb.proto\x12\x08vectordb\x1a\x1fgoogle/protobuf/timestamp.proto\"\x91\x01\n\x12VectorWriteRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0e\n\x06vector\x18\x02 \x03(\x02\x12.\n\ncreated_at\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"H\n\x17VectorBatchWriteRequest\x12-\n\x07vectors\x18\x01 \x03(\x0b\x32\x1c.vectordb.VectorWriteRequest\"&\n\x13VectorWriteResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\" \n\x11VectorReadRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"3\n\x12VectorReadResponse\x12\x0e\n\x06vector\x18\x01 \x03(\x02\x12\r\n\x05\x66ound\x18\x02 \x01(\x08\"\x92\x01\n\x13VectorUpdateRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0e\n\x06vector\x18\x02 \x03(\x02\x12.\n\ncreated_at\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\'\n\x14VectorUpdateResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\"\n\x13VectorDeleteRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"\'\n\x14VectorDeleteResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"V\n\x13VectorSearchRequest\x12\r\n\x05query\x18\x01 \x03(\x02\x12\r\n\x05top_k\x18\x02 \x01(\x05\x12\x0e\n\x06metric\x18\x03 \x01(\t\x12\x11\n\tthreshold\x18\x04 \x01(\x02\"?\n\x14VectorSearchResponse\x12\'\n\x07matches\x18\x01 \x03(\x0b\x32\x16.vectordb.SearchResult\"*\n\x0cSearchResult\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05score\x18\x02 \x01(\x02\x32\xbe\x03\n\x08VectorDB\x12G\n\x06Search\x12\x1d.vectordb.VectorSearchRequest\x1a\x1e.vectordb.VectorSearchResponse\x12N\n\nBatchWrite\x12!.vectordb.VectorBatchWriteRequest\x1a\x1d.vectordb.VectorWriteResponse\x12\x44\n\x05Write\x12\x1c.vectordb.VectorWriteRequest\x1a\x1d.vectordb.VectorWriteResponse\x12\x41\n\x04Read\x12\x1b.vectordb.VectorReadRequest\x1a\x1c.vectordb.VectorReadResponse\x12G\n\x06Update\x12\x1d.vectordb.VectorUpdateRequest\x1a\x1e.vectordb.VectorUpdateResponse\x12G\n\x06\x44\x65lete\x12\x1d.vectordb.VectorDeleteRequest\x1a\x1e.vectordb.VectorDeleteResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0evectordb.proto\x12\x08vectordb\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbc\x01\n\x12VectorWriteRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0e\n\x06vector\x18\x02 \x03(\x02\x12.\n\ncreated_at\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x15\n\rkeyspace_name\x18\x05 \x01(\t\x12\x12\n\ntable_name\x18\x06 \x01(\t\"s\n\x17VectorBatchWriteRequest\x12-\n\x07vectors\x18\x01 \x03(\x0b\x32\x1c.vectordb.VectorWriteRequest\x12\x15\n\rkeyspace_name\x18\x02 \x01(\t\x12\x12\n\ntable_name\x18\x03 \x01(\t\"&\n\x13VectorWriteResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"K\n\x11VectorReadRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x15\n\rkeyspace_name\x18\x02 \x01(\t\x12\x12\n\ntable_name\x18\x03 \x01(\t\"3\n\x12VectorReadResponse\x12\x0e\n\x06vector\x18\x01 \x03(\x02\x12\r\n\x05\x66ound\x18\x02 \x01(\x08\"\xbd\x01\n\x13VectorUpdateRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x0e\n\x06vector\x18\x02 \x03(\x02\x12.\n\ncreated_at\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12.\n\nupdated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x15\n\rkeyspace_name\x18\x05 \x01(\t\x12\x12\n\ntable_name\x18\x06 \x01(\t\"\'\n\x14VectorUpdateResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"M\n\x13VectorDeleteRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x15\n\rkeyspace_name\x18\x02 \x01(\t\x12\x12\n\ntable_name\x18\x03 \x01(\t\"\'\n\x14VectorDeleteResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x81\x01\n\x13VectorSearchRequest\x12\r\n\x05query\x18\x01 \x03(\x02\x12\r\n\x05top_k\x18\x02 \x01(\x05\x12\x0e\n\x06metric\x18\x03 \x01(\t\x12\x11\n\tthreshold\x18\x04 \x01(\x02\x12\x15\n\rkeyspace_name\x18\x05 \x01(\t\x12\x12\n\ntable_name\x18\x06 \x01(\t\"?\n\x14VectorSearchResponse\x12\'\n\x07matches\x18\x01 \x03(\x0b\x32\x16.vectordb.SearchResult\"*\n\x0cSearchResult\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05score\x18\x02 \x01(\x02\x32\xbe\x03\n\x08VectorDB\x12G\n\x06Search\x12\x1d.vectordb.VectorSearchRequest\x1a\x1e.vectordb.VectorSearchResponse\x12N\n\nBatchWrite\x12!.vectordb.VectorBatchWriteRequest\x1a\x1d.vectordb.VectorWriteResponse\x12\x44\n\x05Write\x12\x1c.vectordb.VectorWriteRequest\x1a\x1d.vectordb.VectorWriteResponse\x12\x41\n\x04Read\x12\x1b.vectordb.VectorReadRequest\x1a\x1c.vectordb.VectorReadResponse\x12G\n\x06Update\x12\x1d.vectordb.VectorUpdateRequest\x1a\x1e.vectordb.VectorUpdateResponse\x12G\n\x06\x44\x65lete\x12\x1d.vectordb.VectorDeleteRequest\x1a\x1e.vectordb.VectorDeleteResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -22,29 +22,29 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'vectordb_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   _globals['_VECTORWRITEREQUEST']._serialized_start=62
-  _globals['_VECTORWRITEREQUEST']._serialized_end=207
-  _globals['_VECTORBATCHWRITEREQUEST']._serialized_start=209
-  _globals['_VECTORBATCHWRITEREQUEST']._serialized_end=281
-  _globals['_VECTORWRITERESPONSE']._serialized_start=283
-  _globals['_VECTORWRITERESPONSE']._serialized_end=321
-  _globals['_VECTORREADREQUEST']._serialized_start=323
-  _globals['_VECTORREADREQUEST']._serialized_end=355
-  _globals['_VECTORREADRESPONSE']._serialized_start=357
-  _globals['_VECTORREADRESPONSE']._serialized_end=408
-  _globals['_VECTORUPDATEREQUEST']._serialized_start=411
-  _globals['_VECTORUPDATEREQUEST']._serialized_end=557
-  _globals['_VECTORUPDATERESPONSE']._serialized_start=559
-  _globals['_VECTORUPDATERESPONSE']._serialized_end=598
-  _globals['_VECTORDELETEREQUEST']._serialized_start=600
-  _globals['_VECTORDELETEREQUEST']._serialized_end=634
-  _globals['_VECTORDELETERESPONSE']._serialized_start=636
-  _globals['_VECTORDELETERESPONSE']._serialized_end=675
-  _globals['_VECTORSEARCHREQUEST']._serialized_start=677
-  _globals['_VECTORSEARCHREQUEST']._serialized_end=763
-  _globals['_VECTORSEARCHRESPONSE']._serialized_start=765
-  _globals['_VECTORSEARCHRESPONSE']._serialized_end=828
-  _globals['_SEARCHRESULT']._serialized_start=830
-  _globals['_SEARCHRESULT']._serialized_end=872
-  _globals['_VECTORDB']._serialized_start=875
-  _globals['_VECTORDB']._serialized_end=1321
+  _globals['_VECTORWRITEREQUEST']._serialized_end=250
+  _globals['_VECTORBATCHWRITEREQUEST']._serialized_start=252
+  _globals['_VECTORBATCHWRITEREQUEST']._serialized_end=367
+  _globals['_VECTORWRITERESPONSE']._serialized_start=369
+  _globals['_VECTORWRITERESPONSE']._serialized_end=407
+  _globals['_VECTORREADREQUEST']._serialized_start=409
+  _globals['_VECTORREADREQUEST']._serialized_end=484
+  _globals['_VECTORREADRESPONSE']._serialized_start=486
+  _globals['_VECTORREADRESPONSE']._serialized_end=537
+  _globals['_VECTORUPDATEREQUEST']._serialized_start=540
+  _globals['_VECTORUPDATEREQUEST']._serialized_end=729
+  _globals['_VECTORUPDATERESPONSE']._serialized_start=731
+  _globals['_VECTORUPDATERESPONSE']._serialized_end=770
+  _globals['_VECTORDELETEREQUEST']._serialized_start=772
+  _globals['_VECTORDELETEREQUEST']._serialized_end=849
+  _globals['_VECTORDELETERESPONSE']._serialized_start=851
+  _globals['_VECTORDELETERESPONSE']._serialized_end=890
+  _globals['_VECTORSEARCHREQUEST']._serialized_start=893
+  _globals['_VECTORSEARCHREQUEST']._serialized_end=1022
+  _globals['_VECTORSEARCHRESPONSE']._serialized_start=1024
+  _globals['_VECTORSEARCHRESPONSE']._serialized_end=1087
+  _globals['_SEARCHRESULT']._serialized_start=1089
+  _globals['_SEARCHRESULT']._serialized_end=1131
+  _globals['_VECTORDB']._serialized_start=1134
+  _globals['_VECTORDB']._serialized_end=1580
 # @@protoc_insertion_point(module_scope)
