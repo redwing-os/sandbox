@@ -77,11 +77,11 @@ Now from the credentials page be sure that you have generated a service account.
 ```
 service_account_info = {
     "type": "service_account",
-    "project_id": "vector-sandbox",
-    "private_key_id": "0826950ebad2a467ad7083d5f13df15e5c6c7948",
+    "project_id": "{your-project-id}",
+    "private_key_id": "{private-key-id}",
     "private_key": os.getenv("BIGQUERY_PRIVATE_KEY"),
-    "client_email": "vector@vector-sandbox.iam.gserviceaccount.com",
-    "client_id": "111349678665442531010",
+    "client_email": "{email}@{project-id}.iam.gserviceaccount.com",
+    "client_id": "{your-client-id}",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
