@@ -23,13 +23,18 @@ def main():
     num_products = 10  # Number of products
     num_days = 30      # Number of days in the sales history
     sales_data = generate_sales_data(num_products, num_days)
-
+    _keyspace = "redwing_keyspace"
+    _table = "vectors"
     # Write sales data to the database
     for product_id, daily_sales in sales_data.items():
         for day, sales in enumerate(daily_sales):
             data = [product_id, day, sales]
             vector_bytes = struct.pack(f'{len(data)}f', *data)
+
+            # Prepare data for Write
             write_data = vectordb_pb2.VectorWriteRequest(
+                keyspace=_keyspace,
+                table=_table,
                 key=f"product_{product_id}_day_{day}",
                 vector=vector_bytes
             )
@@ -40,7 +45,11 @@ def main():
     for product_id in range(num_products):
         product_sales = []
         for day in range(num_days):
-            read_data = vectordb_pb2.VectorReadRequest(key=f"product_{product_id}_day_{day}")
+            read_data = vectordb_pb2.VectorReadRequest(
+                    keyspace=_keyspace,
+                    table=_table,
+                    key=f"product_{product_id}_day_{day}"
+                )
             response = stub.Read(read_data)
             if response.found:
                 vector_list = list(response.vector)

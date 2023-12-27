@@ -19,11 +19,14 @@ def main():
 
     # Generate inventory data
     inventory_data = generate_inventory_data(50)  # 50 products
-
+    _keyspace = "redwing_keyspace"
+    _table = "vectors"
     # Write inventory data to the database
     for product in inventory_data:
         data_bytes = bytes(product)
         write_data = vectordb_pb2.VectorWriteRequest(
+            keyspace=_keyspace,
+            table=_table,    
             key=f"product_{product[0]}",
             vector=data_bytes
         )

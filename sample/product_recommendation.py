@@ -21,11 +21,14 @@ def main():
 
     # Generate user profiles
     user_profiles = generate_user_profiles(100, 20)  # 100 users, 20 products
-
+    _keyspace = "redwing_keyspace"
+    _table = "vectors"
     # Write user profiles to the database
     for i, profile in enumerate(user_profiles):
         vector_bytes = struct.pack(f'{len(profile)}f', *profile)
         write_data = vectordb_pb2.VectorWriteRequest(
+            keyspace=_keyspace,
+            table=_table,     
             key=f"user_{i}",
             vector=vector_bytes
         )
@@ -35,7 +38,10 @@ def main():
     # Read and collect user profiles for recommendation
     collected_profiles = []
     for i in range(len(user_profiles)):
-        read_data = vectordb_pb2.VectorReadRequest(key=f"user_{i}")
+        read_data = vectordb_pb2.VectorReadRequest(
+            keyspace=_keyspace,
+            table=_table,     
+            key=f"user_{i}")
         response = stub.Read(read_data)
 
         if response.found:

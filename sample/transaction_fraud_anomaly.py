@@ -33,11 +33,14 @@ def main():
 
     # Generate transactions
     transactions = generate_transactions(50, 5)  # 50 normal and 5 anomalous
-
+    _keyspace = "redwing_keyspace"
+    _table = "vectors"
     # Write transactions to the database
     for i, transaction in enumerate(transactions):
         vector_bytes = struct.pack(f'{len(transaction)}f', *transaction)
         write_data = vectordb_pb2.VectorWriteRequest(
+            keyspace=_keyspace,
+            table=_table,    
             key=f"transaction_{i}",
             vector=vector_bytes
         )
@@ -47,7 +50,10 @@ def main():
     # Read and collect transaction vectors for analysis
     collected_transactions = []
     for i in range(len(transactions)):
-        read_data = vectordb_pb2.VectorReadRequest(key=f"transaction_{i}")
+        read_data = vectordb_pb2.VectorReadRequest(
+            keyspace=_keyspace,
+            table=_table,  
+            key=f"transaction_{i}")
         response = stub.Read(read_data)
 
         if response.found:

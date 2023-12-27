@@ -11,10 +11,18 @@ def process_papers(paper_texts):
 
 def write_papers_to_database(papers, stub):
     """Process papers and write to the database."""
+    
     paper_vectors = process_papers(papers)
     for i, vector in enumerate(paper_vectors):
         vector_bytes = vector.tobytes()
+        # Define keyspace and table name
+        _keyspace = "redwing_keyspace"
+        _table = "vectors"
+
+        # Prepare data for Write
         write_data = vectordb_pb2.VectorWriteRequest(
+            keyspace=_keyspace,
+            table=_table,
             key=f"paper_{i}",
             vector=vector_bytes
         )
@@ -23,10 +31,15 @@ def write_papers_to_database(papers, stub):
 def search_similar_papers(query, stub):
     """Search for semantically similar papers."""
     query_vector = process_papers([query])[0]
+    # Define keyspace and table name
+    _keyspace = "redwing_keyspace"
+    _table = "vectors"
     search_request = vectordb_pb2.VectorSearchRequest(
         query=query_vector.tobytes(),
         top_k=5,
-        metric="cosine"
+        metric="cosine",
+        keyspace=_keyspace,
+        table=_table,        
     )
     search_response = stub.Search(search_request)
     return [(match.key, match.score) for match in search_response.matches]
