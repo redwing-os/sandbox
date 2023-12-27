@@ -31,12 +31,16 @@ def write_utility_data_to_database(df, stub):
     """Process utility data and write to the database in batches."""
     rate_vectors = utility_data_to_vectors(df)
     batch_size = 150
+    _keyspace="redwing_keyspace"
+    _table="vectors"
     for i in range(0, len(df), batch_size):
         batch = vectordb_pb2.VectorBatchWriteRequest()
         for j in range(i, min(i + batch_size, len(df))):
             vector_list = rate_vectors[j].tolist()
             batch.vectors.append(
                 vectordb_pb2.VectorWriteRequest(
+                    keyspace=_keyspace,
+                    table=_table,
                     key=f"utility_{df.iloc[j]['zip']}",
                     vector=vector_list
                 )

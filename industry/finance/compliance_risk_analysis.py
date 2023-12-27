@@ -27,6 +27,8 @@ def write_complaints_to_database(df, stub):
     # Drop NaN values and reset the index so it aligns with the narrative_vectors array
     df_clean = df.dropna(subset=['Consumer complaint narrative']).reset_index(drop=True)
     narrative_vectors = complaints_to_vectors(df_clean)
+    _keyspace="redwing_keyspace"
+    _table="vectors"
     batch_size = 10  # Adjust batch size as needed
     for i in range(0, len(df_clean), batch_size):
         batch = vectordb_pb2.VectorBatchWriteRequest()
@@ -35,6 +37,8 @@ def write_complaints_to_database(df, stub):
             vector_list = narrative_vectors[j - i].tolist()  # Adjust index to start from 0 for each batch
             batch.vectors.append(
                 vectordb_pb2.VectorWriteRequest(
+                    keyspace=_keyspace,
+                    table=_table,                    
                     key=f"complaint_{df_clean.iloc[j]['Complaint ID']}",
                     vector=vector_list
                 )

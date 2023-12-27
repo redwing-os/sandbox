@@ -1,6 +1,6 @@
 import sys
 import streamlit as st
-sys.path.append('../run')  # Adjust the path as necessary
+sys.path.append('../sample')  # Adjust the path as necessary
 
 from network_enhanced_threat_detection import main
 

@@ -1,6 +1,6 @@
 import sys
 import streamlit as st
-sys.path.append('../run')  # Add the /run directory to the Python path
+sys.path.append('../sample')  # Add the /sample directory to the Python path
 
 from healthcare_semantic_search import process_papers, search_similar_papers, setup_grpc_channel
 
