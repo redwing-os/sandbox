@@ -5,7 +5,7 @@ networks:
     driver: bridge
 
 services:
-  cassandra:
+  db:
     logging:
       driver: "none"
     image: ${DB_IMAGE}
@@ -24,7 +24,7 @@ services:
     ports:
       - "50051:50051"
     depends_on:
-      - cassandra
+      - db
     networks:
       - common
 
@@ -33,69 +33,3 @@ services:
     command: ping -c 2 142.250.186.142
     networks:
       - common
-
-# staged for deletion #
-
-# version: '3.8'
-# services:
-#   db:
-#     logging:
-#       driver: "none"
-#     image: ${DB_IMAGE}
-#     ports:
-#       - "${DB_PORT}:${DB_PORT}"
-#   rust_server:
-#     network_mode: host
-#     build:
-#       context: .
-#       dockerfile: rust_server/Dockerfile
-#     ports:
-#       - "50051:50051"
-#     depends_on:
-#       - db
-#     environment:
-#       - DB_HOST=db # used to be cassandra, might cause bugs
-#       - DB_PORT=${DB_PORT}
-#     healthcheck:
-#       test: ["CMD", "curl", "-f", "http://localhost:8080/"]
-#       interval: 10s
-#       timeout: 5s
-#       retries: 3
-
-# # local
-# version: '3.8'
-# services:
-#   # cassandra:
-#   #   logging:
-#   #     driver: "none"
-#   #   image: cassandra:latest
-#   #   ports:
-#   #     - "9042:9042"
-#   db:
-#     logging:
-#       driver: "none"
-#     image: ${DB_IMAGE}
-#     ports:
-#       - "${DB_PORT}:${DB_PORT}"
-#   rust_server:
-#     # platform: linux/arm64 or amd64 debug
-#     # platforms:
-#     #   - linux/amd64
-#     #   - linux/arm64    
-#     network_mode: host
-#     build:
-#       context: .
-#       dockerfile: rust_server/Dockerfile
-#     ports:
-#       - "50051:50051"
-#     depends_on:
-#       - db
-#     environment:
-#       - DB_HOST=cassandra
-#       - DB_PORT=${DB_PORT}
-#     healthcheck:
-#       test: ["CMD", "curl", "-f", "http://localhost:8080/"]
-#       interval: 10s
-#       timeout: 5s
-#       retries: 3
-
