@@ -34,16 +34,12 @@ def main(num_entries=1000):  # Default value set to 1000
     # Generate log data
     log_data = generate_log_data(1000)  # 200 log entries
 
-    _keyspace = "redwing_keyspace"
-    _table = "vectors"
     # Write log data to the database
     for i, entry in enumerate(log_data):
         # Ensure all data are floats
         entry_as_floats = list(map(float, entry))
         vector_bytes = struct.pack(f'{len(entry_as_floats)}f', *entry_as_floats)
         write_data = vectordb_pb2.VectorWriteRequest(
-            keyspace=_keyspace,
-            table=_table,            
             key=f"log_{i}",
             vector=vector_bytes
         )
@@ -55,10 +51,7 @@ def main(num_entries=1000):  # Default value set to 1000
     # Read and collect log data for analysis, removing padding
     collected_logs = []
     for i in range(len(log_data)):
-        read_data = vectordb_pb2.VectorReadRequest(
-            keyspace=_keyspace,
-            table=_table,    
-            key=f"log_{i}")
+        read_data = vectordb_pb2.VectorReadRequest(key=f"log_{i}")
         response = stub.Read(read_data)
         if response.found:
             vector_list = list(response.vector)[:feature_length]  # Slice to remove padding

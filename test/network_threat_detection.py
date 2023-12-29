@@ -25,14 +25,10 @@ def main():
     # Generate log data
     log_data = generate_log_data(200)  # 200 log entries
 
-    _keyspace = "redwing_keyspace"
-    _table = "vectors"
     # Write log data to the database
     for i, entry in enumerate(log_data):
         vector_bytes = struct.pack(f'{len(entry)}f', *entry)
         write_data = vectordb_pb2.VectorWriteRequest(
-            keyspace=_keyspace,
-            table=_table,           
             key=f"log_{i}",
             vector=vector_bytes
         )
@@ -41,10 +37,7 @@ def main():
     # Read and collect log data for analysis
     collected_logs = []
     for i in range(len(log_data)):
-        read_data = vectordb_pb2.VectorReadRequest(
-            keyspace=_keyspace,
-            table=_table,                
-            key=f"log_{i}")
+        read_data = vectordb_pb2.VectorReadRequest(key=f"log_{i}")
         response = stub.Read(read_data)
         if response.found:
             vector_list = list(response.vector)
