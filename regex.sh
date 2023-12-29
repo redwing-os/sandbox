@@ -17,10 +17,10 @@ if [ -z "$replacement_ip" ]; then
     exit 1
 fi
 
-# Regex pattern to match
+# Regex pattern to match both 'localhost:50051' and '127.0.0.1:5001'
 pattern="(localhost:50051|127.0.0.1:5001)"
 
-# Find and replace in all files in the current directory and subdirectories
-find . -type f -exec sed -i "s/${pattern}/${replacement_ip}/g" {} +
+# Find and replace in all Python files within the current directory and subdirectories
+find ./ -type f -name "*.py" -exec sed -i "s/${pattern}/${replacement_ip}/g" {} +
 
 echo "Replacement complete."
