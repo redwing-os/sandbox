@@ -7,7 +7,7 @@ networks:
 services:
   db:
     image: ${DB_IMAGE}
-    command: ${SCYLLA_STARTUP}
+    command: ${DB_STARTUP_CMD}
     ports:
       - "9042:9042"
     networks:
