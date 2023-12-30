@@ -7,7 +7,7 @@ networks:
 services:
   db:
     image: ${DB_IMAGE}
-    command: ["--listen-address=0.0.0.0", "--rpc-address=0.0.0.0", "--broadcast-rpc-address=127.0.0.1"]
+    command: ["--listen-address=127.0.0.1", "--rpc-address=127.0.0.1", "--broadcast-rpc-address=127.0.0.1"]
     ports:
       - "${DB_PORT}:${DB_PORT}"
     networks:
