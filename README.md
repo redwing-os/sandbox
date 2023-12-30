@@ -16,7 +16,7 @@ cd sandbox
 
 ## Set environment variables
 
-Upon receiving your license key and customer ID, export them as environment variables in your system and save then to a `.env` file:
+Upon receiving your license key and customer ID, export them as environment variables in your system and save then to a `.env` file, be sure to note that DB_STARTUP_CMD is required for ScyllaDB, and an empty string is required for Cassandra:
 
 ```
 echo "LICENSE_KEY=[your_license_key]" >> .env
@@ -24,6 +24,12 @@ echo "CUSTOMER_ID=[your_customer_id]" >> .env
 echo "DB_PORT=9042" >> .env
 echo "DB_IMAGE=cassandra:latest" >> .env
 echo "RUST_BACKTRACE=full" >> .env
+
+# For Cassandra Only
+echo "DB_STARTUP_CMD=''" >>.env
+
+# For ScyllaDB Only
+echo "DB_STARTUP_CMD='--smp 1 --memory 750M --overprovisioned 1 --listen-address=0.0.0.0 --rpc-address=0.0.0.0 --broadcast-rpc-address=127.0.0.1'" >>.env
 ```
 
 Pull and compose the Vector Docker image, this will start up the server up to the number of cores that are enabled in your software license.
