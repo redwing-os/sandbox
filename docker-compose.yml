@@ -32,6 +32,11 @@ services:
     networks:
       - common
 
+  catalyst:
+    image: helloredwing/catalyst:latest
+    networks:
+      - common
+
   network_test:
     image: busybox
     command: ping -c 2 142.250.186.142
