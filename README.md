@@ -41,7 +41,7 @@ docker-compose pull && docker-compose up
 Or run:
 
 ```
-sh start.sh
+sh sh/start.sh
 ```
 
 Once docker is running both the server and the db enter the Cassandra db through the following
