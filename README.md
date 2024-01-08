@@ -35,7 +35,7 @@ echo "DB_STARTUP_CMD='--smp 1 --memory 750M --overprovisioned 1 --listen-address
 Pull and compose the Vector Docker image, this will start up the server up to the number of cores that are enabled in your software license.
 
 ```
-docker pull helloredwing/vector && docker-compose up
+docker-compose pull && docker-compose up
 ```
 
 Or run:

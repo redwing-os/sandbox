@@ -12,8 +12,5 @@ if [ -z "$CUSTOMER_ID" ]; then
     export CUSTOMER_ID
 fi
 
-# Pull the Docker image
-docker pull helloredwing/vector
-
-# Run docker-compose
-docker-compose up
+# Pull and run the Docker images
+docker-compose pull && docker-compose up
