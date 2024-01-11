@@ -21,7 +21,7 @@ services:
   rust_server:
     image: helloredwing/vector:latest
     env_file:
-      - .env
+      - .env    
     dns:
       - 8.8.8.8
       - 8.8.4.4    
@@ -43,6 +43,8 @@ services:
       - db
     networks:
       - common
+    environment:
+      - GRPC_SERVER=rust_server:50051        
 
   network_test:
     image: busybox
