@@ -45,6 +45,7 @@ services:
       - common
     environment:
       - GRPC_SERVER=rust_server:50051        
+      - DB_HOST=db        
 
   network_test:
     image: busybox
