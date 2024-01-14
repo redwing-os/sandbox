@@ -34,6 +34,8 @@ services:
 
   catalyst:
     image: helloredwing/catalyst:latest
+    env_file:
+      - .env        
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
@@ -42,10 +44,7 @@ services:
     depends_on:
       - db
     networks:
-      - common
-    environment:
-      - GRPC_SERVER=rust_server:50051        
-      - DB_HOST=db        
+      - common     
 
   network_test:
     image: busybox
