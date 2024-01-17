@@ -39,7 +39,8 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
-      - "8080:80"    # Exposing port 80 for Nginx serving the React app
+      - "80:80"      # Exposing port 80 for Nginx serving the React app
+      - "8080:8080"  # Exposing port 8080 for Nginx serving the React app
       - "5000:5000"  # Exposing port 5000 for the Flask API
     depends_on:
       - db
